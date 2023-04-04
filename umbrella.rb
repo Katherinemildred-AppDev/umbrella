@@ -1,11 +1,11 @@
 p "Where are you located?"
 
-# user_location = gets.chomp
-p user_location = "Taj Mahal" #temporary permanent location to avoid testing
+user_location = gets.chomp
+p "Checking the weather at " + user_location + "..." #use user_location = xxx in first draft for temporary permanent location to avoid testing
 
-gmaps_api_endpoint = "https://maps.googleapis.com/maps/api/geocode/json?address=" +user_location + "&key=AIzaSyB92cYxPcYqgjwBJfWlwDQw_7yjuyU3tpA"
+gmaps_api_endpoint = "https://maps.googleapis.com/maps/api/geocode/json?address=" +user_location + "&key="
 
-# gmaps_api_endpoint = "https://maps.googleapis.com/maps/api/geocode/json?address=#{user_location}&key=AIzaSyB92cYxPcYqgjwBJfWlwDQw_7yjuyU3tpA"
+# gmaps_api_endpoint = "https://maps.googleapis.com/maps/api/geocode/json?address=#{user_location}&key="
 
 gmaps_api_endpoint
 
@@ -29,13 +29,24 @@ geo = first_result.fetch("geometry")
 loc=geo.fetch("location")
 
 latitude = loc.fetch("lat")
-longitutde = loc.fetch("lng")
+longitude = loc.fetch("lng")
 
-p latitude
-p longitutde
-
-
+p "Your coordinates are " + latitude.to_s + "," + longitude.to_s
 
 #p after every new line of code
 
 #steps above are standard. modify URL, read it, parse it. common to all APIs.
+
+api_pirate_endpoint= "https://api.pirateweather.net/forecast//" + latitude.to_s + "," + longitude.to_s + "."
+
+raw_response_2 = URI.open(api_pirate_endpoint).read #forgot this
+
+parsed_response = JSON.parse(raw_response_2) #forgot this
+
+current_array= parsed_response.fetch("currently") #forgot this
+
+current_temp=current_array.fetch("temperature")
+
+p "It is currently " + current_temp.to_s + " °F."
+
+#next hour:
